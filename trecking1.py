@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import turtle as t
 
 cap = cv2.VideoCapture('HallWayTracking/videos/002.avi');
 ret, frame1 = cap.read()
@@ -16,12 +15,6 @@ br = (550, 473)
 x1 = np.float32([tl, bl, tr, br])
 x2 = np.float32([[0,0], [0,480], [640,0], [640,480]])
 
-screen = t.Screen()
-screen.setup(640, 480)
-t.penup()
-t.goto(-320,-240)
-t.pendown()
-
 while success:
     success, image = cap.read()
     frame1 = cv2.resize(image, (640, 480))
@@ -35,9 +28,6 @@ while success:
         (x, y, w, h) = cv2.boundingRect(contour) 
         if cv2.contourArea(contour) > 1000: 
             cv2.rectangle(frame1, (x, y), (x+w, y+h), (0,255,0), 2)
-            coordx0 = (x - w)//2
-            coordy0 = (y - h)//2
-
             cv2.circle(frame1, tl, 5, (0,0,255), -1)
             cv2.circle(frame1, bl, 5, (0,0,255), -1)
             cv2.circle(frame1, tr, 5, (0,0,255), -1)
@@ -50,7 +40,7 @@ while success:
             cv2.imshow('Eye-bird show', bird_frame)        
             x_obj = 1
             y_obj = 1
-    t.goto(coordx0,coordy0)
+
     frame1 = frame2 
     ret, frame2 = cap.read()   
     if cv2.waitKey(15) == 42:
